@@ -57,7 +57,7 @@ export default function RaceResult() {
   const [date, setDate] = useState<string>('')
   const fetchResult = async () => {
     try {
-      const res = await fetch(`https://ergast.com/api/f1/current/last/results.json`).then(res => res.json())
+      const res = await fetch(`https://ergast.com/api/f1/2018/3/results.json`).then(res => res.json())
       const data = res.MRData.RaceTable.Races[0]
       const formattedItems = data.Results.map((item: any) => {
        return {
@@ -82,8 +82,8 @@ export default function RaceResult() {
   const { data: items } = useQuery('result', () => fetchResult())
   return (
     <div className='p-4'>
-      <h1 className='font-bold text-center'>Race Result Of F1</h1>
-      <div style={{margin: '15px'}}>
+      <h1 className='font-bold text-center '>Race Result Of F1</h1>
+      <div className='font-bold text-center m-4'>
         <span>Date: </span>
         <span>
           {date}
