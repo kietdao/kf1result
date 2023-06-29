@@ -21,15 +21,18 @@ export default function Filter({
   setDriver,
   setFullName
 }: propList) {
+  // fetch list of seasons
   const fecthSeasons = async () => {
     try {
       const data = await fetch(
         `http://ergast.com/api/f1/seasons.json?limit=74`
       ).then((res) => res.json());
-      const listSeason: {
+      const listSeason: [{
         value: string;
         label: string;
-      } = data?.MRData?.SeasonTable?.Seasons?.map((item: any) => {
+      }] = data?.MRData?.SeasonTable?.Seasons?.map((item: {
+        season: string
+      }) => {
         return {
           value: item.season,
           label: item.season,
@@ -40,15 +43,18 @@ export default function Filter({
       console.log(err);
     }
   };
+  // fetch list of rounds following season
   const fetchRound = async () => {
     try {
       const data = await fetch(`https://ergast.com/api/f1/${season}.json`).then(
         (res) => res.json()
       );
-      const listRound: {
+      const listRound: [{
         value: string;
         label: string;
-      } = data?.MRData?.RaceTable?.Races.map((item) => {
+      }] = data?.MRData?.RaceTable?.Races.map((item: {
+        round: string
+      }) => {
         return {
           value: item.round,
           label: item.round,
@@ -59,10 +65,17 @@ export default function Filter({
       console.log(err);
     }
   };
+  // fetch list of drivers following season
   const fetchDrivers = async () => {
     try {
       const data = await fetch(`http://ergast.com/api/f1/${season}/drivers.json`).then((res) => res.json())
-      const listDriver = data?.MRData?.DriverTable?.Drivers?.map(item => {
+      const listDriver: [{
+        value: string,
+        label: string
+      }] = data?.MRData?.DriverTable?.Drivers?.map((item: {
+        givenName: string,
+        familyName: string
+      }) => {
         return {
           value: `${item.givenName} ${item.familyName}`,
           label: `${item.givenName} ${item.familyName}`
@@ -84,7 +97,7 @@ export default function Filter({
   };
   const onChangeDriver = (value: string) => {
     setFullName(value)
-    const familyName = value.split(' ').slice(-1).join('').toLowerCase()
+    const familyName: string = value.split(' ').slice(-1).join('').toLowerCase()
     setDriver(familyName)
   };
   const antIcon = <LoadingOutlined style={{ fontSize: 12 }} spin />;
