@@ -53,11 +53,15 @@ const columns: ColumnsType<Items> = [
   },
 ];
 
-export default function RaceResult() {
+type propList = {
+  season: string,
+}
+
+export default function RaceResult({ season }: propList) {
   const [date, setDate] = useState<string>('')
   const fetchResult = async () => {
     try {
-      const res = await fetch(`https://ergast.com/api/f1/2018/3/results.json`).then(res => res.json())
+      const res = await fetch(`https://ergast.com/api/f1/${season}/3/results.json`).then(res => res.json())
       const data = res.MRData.RaceTable.Races[0]
       const formattedItems = data.Results.map((item: any) => {
        return {
@@ -73,16 +77,20 @@ export default function RaceResult() {
       })
       const dateString = new Date(data.date)
       const formatDate = `${dateString.getDate()}-${dateString.getMonth() + 1}-${dateString.getFullYear()}`
+      formattedItems.push({date: formatDate})
       setDate(formatDate)
       return formattedItems
     } catch(err) {
       console.log(err)
     }
   }
-  const { data: items } = useQuery('result', () => fetchResult())
+  const { data: items } = useQuery(['result', season], () => fetchResult())
+  useEffect(() => {
+    setDate(items?.[items?.length - 1]?.date)
+  }, [items])
   return (
     <div className='p-4'>
-      <h1 className='font-bold text-center '>Race Result Of F1</h1>
+      <h1 className='font-bold text-center text-xl'>Race Result Of F1</h1>
       <div className='font-bold text-center m-4'>
         <span>Date: </span>
         <span>
