@@ -97,7 +97,7 @@ export default function RaceResult({ season }: propList) {
           {date}
         </span>
       </div>
-      <Table columns={columns} dataSource={items} />;
+      <Table columns={columns} dataSource={items?.slice(0, -1)} />;
     </div>
   )
 }
