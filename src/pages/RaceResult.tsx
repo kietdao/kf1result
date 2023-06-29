@@ -55,13 +55,14 @@ const columns: ColumnsType<Items> = [
 
 type propList = {
   season: string,
+  round: string
 }
 
-export default function RaceResult({ season }: propList) {
+export default function RaceResult({ season, round }: propList) {
   const [date, setDate] = useState<string>('')
   const fetchResult = async () => {
     try {
-      const res = await fetch(`https://ergast.com/api/f1/${season}/3/results.json`).then(res => res.json())
+      const res = await fetch(`https://ergast.com/api/f1/${season}/${round}/results.json`).then(res => res.json())
       const data = res.MRData.RaceTable.Races[0]
       const formattedItems = data.Results.map((item: any) => {
        return {
@@ -75,7 +76,7 @@ export default function RaceResult({ season }: propList) {
         points: item.points
        }
       })
-      const dateString = new Date(data.date)
+      const dateString = new Date(data?.date)
       const formatDate = `${dateString.getDate()}-${dateString.getMonth() + 1}-${dateString.getFullYear()}`
       formattedItems.push({date: formatDate})
       setDate(formatDate)
@@ -84,7 +85,7 @@ export default function RaceResult({ season }: propList) {
       console.log(err)
     }
   }
-  const { data: items } = useQuery(['result', season], () => fetchResult())
+  const { data: items } = useQuery(['raceResult', season, round], () => fetchResult())
   useEffect(() => {
     setDate(items?.[items?.length - 1]?.date)
   }, [items])

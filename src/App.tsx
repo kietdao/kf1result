@@ -6,10 +6,11 @@ import { useState } from 'react';
 
 function App() {
   const [season, setSeason] = useState<string>('1950')
+  const [round, setRound] = useState<string>('1')
   return (
     <div className="App">
-      <Filter setSeason={setSeason}/>
-      <RaceResult season={season}/>
+      <Filter setSeason={setSeason} season={season} setRound={setRound}/>
+      <RaceResult season={season} round={round}/>
     </div>
   );
 }
