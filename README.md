@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Some lirabries used:
+- react-query to stored and cache data.
+- ant design for using basic components like Table, Spin, etc...
+- Tailwindcss for basic css.
+- Simple typescript.
+### Some feature added:
+- Fetch data race result following Races, Drivers.
+- Races type: filter following seasons and the order of rounds, fetch list rounds following a specified season.
+- Drivers type: filter following seasons and the names of drivers, fetch list drivers following a specified season.
