@@ -60,6 +60,7 @@ type propList = {
 
 export default function RaceResult({ season, round }: propList) {
   const [date, setDate] = useState<string>('')
+  const [raceName, setRaceName] = useState<string>('')
   const fetchResult = async () => {
     try {
       const res = await fetch(`https://ergast.com/api/f1/${season}/${round}/results.json`).then(res => res.json())
@@ -80,6 +81,7 @@ export default function RaceResult({ season, round }: propList) {
       const formatDate = `${dateString.getDate()}-${dateString.getMonth() + 1}-${dateString.getFullYear()}`
       formattedItems.push({date: formatDate})
       setDate(formatDate)
+      setRaceName(data.raceName)
       return formattedItems
     } catch(err) {
       console.log(err)
@@ -92,11 +94,11 @@ export default function RaceResult({ season, round }: propList) {
   return (
     <div className='p-4'>
       <h1 className='font-bold text-center text-xl'>Race Result Of F1</h1>
-      <div className='font-bold text-center m-4'>
-        <span>Date: </span>
+      <div className='font-bold text-center m-4 flex justify-around items-center'>
         <span>
-          {date}
+          Date: {date}
         </span>
+        <span>Race: {raceName}</span>
       </div>
       <Table columns={columns} dataSource={items?.slice(0, -1)} />;
     </div>
